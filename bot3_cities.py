@@ -2,6 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from api_key import key
 
 import logging
+import random
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -26,6 +27,7 @@ def cities_play(bot, update, user_data):
 
     user_city = update.message.text[8:]
     user_data[key] = cities_list
+    random.shuffle(user_data[key])
 
     try:
         user_data[key].remove(user_city)
@@ -69,8 +71,8 @@ def cities_handler(bot, update, user_data):
         try:
             user_data[key].remove(user_city)
         except ValueError:
-            print('Я не знаю такой город, попробуй еще раз')
-            update.message.reply_text('Я не знаю такой город, попробуй еще раз')
+            print('Я не знаю такой город или ты его уже называл, попробуй еще раз')
+            update.message.reply_text('Я не знаю такой город или ты его уже называл, попробуй еще раз')
             return
 
         length = 0
