@@ -29,16 +29,14 @@ def cities_play(bot, update, user_data):
     user_data[key] = cities_list
     random.shuffle(user_data[key])
 
+    update.message.reply_text('Добро пожаловать в режим игры в города! Следующий город можешь вводить без команды /goroda')
+    
     try:
         user_data[key].remove(user_city)
     except ValueError:
         print('Я не знаю такой город, попробуй еще раз')
         update.message.reply_text('Я не знаю такой город, попробуй еще раз')
         return
-
-
-    update.message.reply_text('Добро пожаловать в режим игры в города! Следующий город можешь вводить без команды /goroda')
-    
 
     length = 0
 
