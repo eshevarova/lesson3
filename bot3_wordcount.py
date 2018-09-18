@@ -7,7 +7,7 @@ import datetime as dt
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
-                    filename='bot3.log'
+                    filename='bot3_wordcount.log'
                     )
 
 PROXY = {'proxy_url': 'socks5://t1.learn.python.ru:1080',
