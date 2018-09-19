@@ -29,13 +29,13 @@ def cities_play(bot, update, user_data):
     user_data[key] = cities_list
     random.shuffle(user_data[key])
 
-    update.message.reply_text('Добро пожаловать в режим игры в города! Следующий город можешь вводить без команды /goroda')
+    update.message.reply_text('Добро пожаловать в режим игры в города! Следующий город можете вводить без команды /goroda')
     
     try:
         user_data[key].remove(user_city)
     except ValueError:
-        print('Я не знаю такой город, попробуй еще раз')
-        update.message.reply_text('Я не знаю такой город, попробуй еще раз')
+        print('Я не знаю такой город, попробуйте еще раз')
+        update.message.reply_text('Я не знаю такой город, попробуйте еще раз')
         return
 
     length = 0
@@ -51,6 +51,7 @@ def cities_play(bot, update, user_data):
         elif length == len(user_data[key]):
             print('Я сдаюсь')
             update.message.reply_text('Я сдаюсь')
+            user_data.clear()
             return
         
 
@@ -62,6 +63,7 @@ def cities_handler(bot, update, user_data):
     if user_city == 'Я сдаюсь':
         print('До встречи!')
         update.message.reply_text('До встречи!')
+        user_data.clear()
         return
 
     if user_city[0].lower() == user_data[key_last][-1]:
@@ -69,8 +71,8 @@ def cities_handler(bot, update, user_data):
         try:
             user_data[key].remove(user_city)
         except ValueError:
-            print('Я не знаю такой город или ты его уже называл, попробуй еще раз')
-            update.message.reply_text('Я не знаю такой город или ты его уже называл, попробуй еще раз')
+            print('Я не знаю такой город или вы его уже называли, попробуйте еще раз')
+            update.message.reply_text('Я не знаю такой город или вы его уже называли, попробуйте еще раз')
             return
 
         length = 0
@@ -86,6 +88,7 @@ def cities_handler(bot, update, user_data):
             elif length == len(user_data[key]):
                 print('Я сдаюсь')
                 update.message.reply_text('Я сдаюсь')
+                user_data.clear()
                 return
 
     else:

@@ -1,6 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from api_key import key
-from telegram import ReplyKeyboardMarkup
 
 import logging
 import re
@@ -78,7 +77,12 @@ def word_calculation(bot, update):
     elif sep_sign == ' умножить на ':
         answer = one * two
     elif sep_sign == ' разделить на ':
-        answer = one / two
+        try:
+            answer = one / two
+        except ZeroDivisionError:
+            print('Деление на 0 запрещено')
+            update.message.reply_text('Деление на 0 запрещено')
+            return
 
     print(answer)
     update.message.reply_text(answer)

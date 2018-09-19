@@ -1,6 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from api_key import key
-from telegram import ReplyKeyboardMarkup
 
 import logging
 import datetime as dt
@@ -21,8 +20,20 @@ def greet_user(bot, update):
 
 def calculation(bot, update):
     user_text = update.message.text
-    if user_text[-1] == '=':
-        signs = '-+*/'
+    signs = '-+*/'
+    if user_text.endswith('='):
+        if user_text[:-1] == '':
+            print('Неверный формат')
+            update.message.reply_text('Неверный формат')
+            return
+        else:
+            for i in user_text[:-1]:
+                if not i.isdigit():
+                    if not i in signs or i == '':
+                        print('Неверный формат')
+                        update.message.reply_text('Неверный формат')
+                        return
+                    
         for elem in signs:
             if elem in user_text:
                 sep_sign = elem
@@ -34,24 +45,27 @@ def calculation(bot, update):
             print('Неверный формат')
             update.message.reply_text('Неверный формат')
 
-        if sep_sign == '/' and two == 0.0:
-            print('Делить на 0 нельзя')
-            update.message.reply_text('Делить на 0 нельзя')
-        else:
-            if sep_sign == '+':
-                answer = one + two
-            elif sep_sign == '-':
-                answer = one - two
-            elif sep_sign == '/':
+        if sep_sign == '+':
+            answer = one + two
+        elif sep_sign == '-':
+            answer = one - two
+        elif sep_sign == '/':
+
+            try:
                 answer = one / two
-            elif sep_sign == '*':
-                answer = one * two
+            except ZeroDivisionError:
+                print('Делить на 0 нельзя')
+                update.message.reply_text('Делить на 0 нельзя')
+                return
+                
+        elif sep_sign == '*':
+            answer = one * two
 
-            if answer % 1 == 0:
-                answer = int(answer)
+        if answer % 1 == 0:
+            answer = int(answer)
 
-            print(answer)
-            update.message.reply_text(answer)
+        print(answer)
+        update.message.reply_text(answer)
     else:
         print('Вы забыли знак равенства')
         update.message.reply_text('Вы забыли знак равенства')

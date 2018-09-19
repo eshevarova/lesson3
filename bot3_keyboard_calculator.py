@@ -41,9 +41,9 @@ def text_handler_for_calculator(bot, update, user_data):
     key = update.message.chat.id
     value = user_data.get(key, '') + update.message.text
     user_data[key] = value
-    if value[-1] == '=':
+    signs = '-+*:'
+    if value.endswith('='):
         user_text = user_data[key]
-        signs = '-+*:'
         for elem in signs:
             if elem in user_text:
                 sep_sign = elem
