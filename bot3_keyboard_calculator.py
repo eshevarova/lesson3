@@ -1,6 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
-from api_key import key
+from api_key import TELEGRAM_BOT_TOKEN
 
 import logging
 
@@ -80,7 +80,7 @@ def text_handler_for_calculator(bot, update, user_data):
 
 
 def main():
-    mybot = Updater(key, request_kwargs=PROXY)
+    mybot = Updater(TELEGRAM_BOT_TOKEN, request_kwargs=PROXY)
 
 
     dp = mybot.dispatcher

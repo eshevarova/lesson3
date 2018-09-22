@@ -1,6 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
-from api_key import key
-from telegram import ReplyKeyboardMarkup
+from api_key import TELEGRAM_BOT_TOKEN
 
 import logging
 import datetime as dt
@@ -23,14 +22,20 @@ def greet_user(bot, update):
 
 def full_moon(bot, update):
     user_text = update.message.text
-    date = re.search('(\\d{4}/\\d{2}/\\d{2})|(\\d{4}-\\d{2}-\\d{2})', user_text)[0]
+    try:
+        date = re.search('(\\d{4}/\\d{2}/\\d{2})|(\\d{4}-\\d{2}-\\d{2})', user_text)[0]
+    except TypeError:
+        print('Неверная дата')
+        update.message.reply_text('Неверная дата')
+        return
+
     date_full_moon = ephem.next_full_moon(date)
     print('Ближайшее полнолуние наступит {}'.format(date_full_moon))
     update.message.reply_text('Ближайшее полнолуние наступит {}'.format(date_full_moon))
 
 
 def main():
-    mybot = Updater(key, request_kwargs=PROXY)
+    mybot = Updater(TELEGRAM_BOT_TOKEN, request_kwargs=PROXY)
 
 
     dp = mybot.dispatcher

@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
-from api_key import key
+from api_key import TELEGRAM_BOT_TOKEN
 
 import logging
 import re
@@ -48,9 +48,8 @@ def word_calculation(bot, update):
         result = float('{}.{}'.format(str(main_part), str(decimal_part)))
         return result
 
-    # сообщение пользователя начинается с фразы "Сколько будет ", 
-    # поэтому игнорируем первые 14 символов
-    user_text = update.message.text[14:]
+
+    user_text = update.message.text[len('Сколько будет '):]
 
     for elem in signs:
         if elem in user_text:
@@ -89,7 +88,7 @@ def word_calculation(bot, update):
 
 
 def main():
-    mybot = Updater(key, request_kwargs=PROXY)
+    mybot = Updater(TELEGRAM_BOT_TOKEN, request_kwargs=PROXY)
 
 
     dp = mybot.dispatcher

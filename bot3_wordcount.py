@@ -1,7 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from api_key import key
+from api_key import TELEGRAM_BOT_TOKEN
 
-import ephem
 import logging
 import datetime as dt
 
@@ -22,10 +21,10 @@ def greet_user(bot, update):
 def count_word(bot, update):
     user_phrase = update.message.text[11:]
     length = 0
-    if user_phrase[0] == '"' and user_phrase[-1] == '"' and len(user_phrase) == 2:
+    if user_phrase.startswith('"') and user_phrase.endswith('"') and len(user_phrase) == 2:
         print(length)
         update.message.reply_text(length)
-    elif user_phrase[0] == '"' and user_phrase[-1] == '"' and len(user_phrase) > 2:
+    elif user_phrase.startswith('"') and user_phrase.endswith('"') and len(user_phrase) > 2:
         user_phrase = user_phrase[1:-1]
         if (' ') in user_phrase:
             user_phrase = user_phrase.split(' ')
@@ -46,7 +45,7 @@ def count_word(bot, update):
 
 
 def main():
-    mybot = Updater(key, request_kwargs=PROXY)
+    mybot = Updater(TELEGRAM_BOT_TOKEN, request_kwargs=PROXY)
 
 
     dp = mybot.dispatcher

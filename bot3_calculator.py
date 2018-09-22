@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
-from api_key import key
+from api_key import TELEGRAM_BOT_TOKEN
 
 import logging
 import datetime as dt
@@ -22,14 +22,15 @@ def calculation(bot, update):
     user_text = update.message.text
     signs = '-+*/'
     if user_text.endswith('='):
-        if user_text[:-1] == '':
+        user_text = user_text[:-1]
+        if user_text == '':
             print('Неверный формат')
             update.message.reply_text('Неверный формат')
             return
         else:
-            for i in user_text[:-1]:
-                if not i.isdigit():
-                    if not i in signs or i == '':
+            for char in user_text:
+                if not char.isdigit():
+                    if not char in signs:
                         print('Неверный формат')
                         update.message.reply_text('Неверный формат')
                         return
@@ -40,7 +41,7 @@ def calculation(bot, update):
                 print(sep_sign)
         try:
             one = float(user_text.split(sep_sign)[0])
-            two = float(user_text.split(sep_sign)[1].split('=')[0])
+            two = float(user_text.split(sep_sign)[1])
         except ValueError:
             print('Неверный формат')
             update.message.reply_text('Неверный формат')
@@ -49,6 +50,8 @@ def calculation(bot, update):
             answer = one + two
         elif sep_sign == '-':
             answer = one - two
+        elif sep_sign == '*':
+            answer = one * two
         elif sep_sign == '/':
 
             try:
@@ -57,9 +60,6 @@ def calculation(bot, update):
                 print('Делить на 0 нельзя')
                 update.message.reply_text('Делить на 0 нельзя')
                 return
-                
-        elif sep_sign == '*':
-            answer = one * two
 
         if answer % 1 == 0:
             answer = int(answer)
@@ -72,7 +72,7 @@ def calculation(bot, update):
 
 
 def main():
-    mybot = Updater(key, request_kwargs=PROXY)
+    mybot = Updater(TELEGRAM_BOT_TOKEN, request_kwargs=PROXY)
 
 
     dp = mybot.dispatcher

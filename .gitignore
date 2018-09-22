@@ -2,3 +2,6 @@
 *.log
 api_key.py
 env/
+export.csv
+referat.txt
+referat2.txt
